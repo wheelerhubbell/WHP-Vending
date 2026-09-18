@@ -3,19 +3,24 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "engines": {"node": ">=24"},
+  "engines": {
+    "node": ">=24"
+  },
   "scripts": {
-    "test": "node --test",
+    "test": "node --test test/*.test.mjs",
     "migrate": "node scripts/migrate.mjs",
     "check:public": "node scripts/check-public.mjs"
   },
   "dependencies": {
-    "mppx": "0.8.17",
+    "mppx": "0.8.19",
     "pg": "8.16.3",
     "stripe": "22.6.0"
   },
   "description": "Machine-facing commercial interface for Wheeler Hubbell Publishing, Inc.",
-  "repository": {"type": "git", "url": "https://github.com/wheelerhubbell/WHP-Vending.git"},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wheelerhubbell/WHP-Vending.git"
+  },
   "author": "Wheeler Hubbell Publishing, Inc.",
   "license": "UNLICENSED"
 }
