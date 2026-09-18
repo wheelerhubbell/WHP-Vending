@@ -1,0 +1,17 @@
+# WHP Vending
+
+Wheeler Hubbell Publishing, Inc. machine-facing catalog.
+
+Catalog: /catalog/v1/index.json
+Discovery: /.well-known/whp-vending.json
+OpenAPI: /openapi.json
+Purchase endpoint: POST /v1/purchases
+
+Products currently configured:
+- Decision Integrity Claim Classifier — USD 2.99
+- Decision Integrity Return the Burden — USD 4.99
+- Decision Integrity — Audit the Move — USD 7.99
+- Decision Integrity Limited Verdict — USD 9.99
+- Decision Integrity Response Auditor — USD 19.99
+
+Discovery and inspection are free. Paid acquisition uses HTTP 402 with Stripe Machine Payments Protocol when LIVE runtime authority is present.
