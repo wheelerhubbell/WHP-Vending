@@ -1,35 +1,11 @@
 [build]
-  command = "npm test && npm run migrate && npm run check:public"
+  command = "npm test && npm run check:public"
   publish = "public"
-  functions = "netlify/functions"
 
 [functions]
+  directory = "netlify/functions"
   node_bundler = "esbuild"
-  external_node_modules = ["pg", "mppx", "stripe"]
+  external_node_modules = ["@netlify/database", "mppx", "stripe"]
 
 [build.environment]
   NODE_VERSION = "24"
-
-[[redirects]]
-  from = "/v1/*"
-  to = "/.netlify/functions/vending/v1/:splat"
-  status = 200
-  force = true
-
-[[redirects]]
-  from = "/healthz"
-  to = "/.netlify/functions/vending/healthz"
-  status = 200
-  force = true
-
-[[redirects]]
-  from = "/.well-known/whp-vending.json"
-  to = "/.netlify/functions/vending/.well-known/whp-vending.json"
-  status = 200
-  force = true
-
-[[redirects]]
-  from = "/catalog/v1/index.json"
-  to = "/.netlify/functions/vending/catalog/v1/index.json"
-  status = 200
-  force = true
