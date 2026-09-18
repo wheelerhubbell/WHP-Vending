@@ -1,0 +1,139 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "WHP Vending",
+    "version": "1.0.0",
+    "description": "Machine-facing paid digital goods from Wheeler Hubbell Publishing, Inc."
+  },
+  "servers": [
+    {
+      "url": "https://whp-vending.netlify.app"
+    }
+  ],
+  "paths": {
+    "/v1/purchases": {
+      "post": {
+        "summary": "Acquire a WHP digital product",
+        "description": "First request returns HTTP 402 with an MPP Stripe challenge. Retry with an owner-authorized payment credential. Successful payment returns the exact ZIP artifact and a Payment-Receipt header.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "product_id",
+                  "client_reference"
+                ],
+                "properties": {
+                  "product_id": {
+                    "type": "string",
+                    "enum": [
+                      "claim-classifier",
+                      "return-the-burden",
+                      "audit-the-move",
+                      "limited-verdict",
+                      "response-auditor"
+                    ]
+                  },
+                  "client_reference": {
+                    "type": "string",
+                    "pattern": "^[0-9a-f]{64}$"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Paid artifact delivered",
+            "headers": {
+              "Payment-Receipt": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-WHP-Purchase-Id": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-WHP-Entitlement": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-WHP-Delivery-SHA256": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/zip": {
+                "schema": {
+                  "type": "string",
+                  "contentEncoding": "base64"
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "MPP payment challenge"
+          },
+          "503": {
+            "description": "LIVE commerce is not fully configured"
+          }
+        }
+      }
+    },
+    "/v1/purchases/{purchase_id}/recover": {
+      "get": {
+        "summary": "Recover an already-paid artifact without recharging",
+        "parameters": [
+          {
+            "name": "purchase_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^pur_[0-9a-f]{64}$"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Bearer entitlement token issued with the paid delivery"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Artifact re-delivered without payment"
+          },
+          "401": {
+            "description": "Invalid entitlement"
+          },
+          "404": {
+            "description": "Purchase not found"
+          }
+        }
+      }
+    },
+    "/healthz": {
+      "get": {
+        "summary": "Runtime status",
+        "responses": {
+          "200": {
+            "description": "Service status"
+          }
+        }
+      }
+    }
+  }
+}
