@@ -1,0 +1,19 @@
+{
+  "sample_type": "FORMAT_ONLY_NOT_SCORED",
+  "notice": "This is not a baseline, instruction, held-out, or evaluator case and cannot affect the private examination bank.",
+  "case": {
+    "case_id": "PUBLIC-FORMAT-ONLY",
+    "course": "RECEIVE",
+    "domain": "generic",
+    "source_object": "A governing record contains a proposition and a binding qualifier.",
+    "assistant_response": "A response changes a decision-material dimension.",
+    "correction": "A later message challenges that change.",
+    "task": "Classify the correction and the first material departure without assuming that disagreement is automatically authoritative."
+  },
+  "response_shape": {
+    "case_id": "PUBLIC-FORMAT-ONLY",
+    "correction_legitimacy": "ONE_CANONICAL_LABEL",
+    "primary_departure": "ONE_CANONICAL_LABEL",
+    "expected_operation": "one canonical operation statement"
+  }
+}
