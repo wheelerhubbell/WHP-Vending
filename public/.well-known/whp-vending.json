@@ -1,0 +1,22 @@
+{
+  "schema": "WHP-VENDING-DISCOVERY-v1",
+  "seller": "Wheeler Hubbell Publishing, Inc.",
+  "service": "WHP Vending",
+  "base_url": "https://whp-vending.netlify.app",
+  "catalog": "/catalog/v1/index.json",
+  "openapi": "/openapi.json",
+  "llms": "/llms.txt",
+  "purchase_endpoint": "/v1/purchases",
+  "recovery_endpoint_template": "/v1/purchases/{purchase_id}/recover",
+  "payment_protocol": "MPP",
+  "payment_method": "Stripe Shared Payment Token",
+  "discovery_free": true,
+  "delivery": "application/zip",
+  "products": [
+    "claim-classifier",
+    "return-the-burden",
+    "audit-the-move",
+    "limited-verdict",
+    "response-auditor"
+  ]
+}
