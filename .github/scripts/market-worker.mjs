@@ -105,7 +105,15 @@ export async function runOnce() {
   const origin = marketOrigin();
   if (process.env.WHP_ENGINE_COMMIT && process.env.WHP_ENGINE_COMMIT !== ENGINE_COMMIT) throw new Error("ENGINE_COMMIT_MISMATCH");
   const requestId = randomBytes(32).toString("hex");
-  const job = await marketPost(origin, "/internal/github-worker/claim", { request_id: requestId });
+  let job;
+  try { job = await marketPost(origin, "/internal/github-worker/claim", { request_id: requestId }); }
+  catch (error) {
+    if (error instanceof MarketHttpError && error.status === 503 && error.code === "LIVE_WORKER_NOT_ENABLED") {
+      process.stdout.write("Market is in TEST; live worker is intentionally disabled.\n");
+      return { claimed: false, disabled: true };
+    }
+    throw error;
+  }
   if (!job) { process.stdout.write("No paid market job is due.\n"); return { claimed: false }; }
   if (job.version !== "WHP-MARKET-JOB-v1" || job.engine_commit !== ENGINE_COMMIT || !["snapshot", "readiness"].includes(job.product) || !/^[0-9a-f]{64}$/u.test(job.job_id ?? "") || !Number.isSafeInteger(job.lease_generation) || job.lease_generation < 1 || typeof job.lease_token !== "string") throw new Error("JOB_CONTRACT_INVALID");
   if (await sha256(job.target_url) !== job.target_sha256) throw new Error("JOB_TARGET_HASH_MISMATCH");
