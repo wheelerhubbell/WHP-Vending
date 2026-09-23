@@ -1,0 +1,30 @@
+name: Publish WHP Standing MCP Registry metadata
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - whp-standing-registry-ops
+    paths:
+      - registry/whp-standing/server.json
+      - .github/workflows/publish-whp-standing-mcp.yml
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout publication branch
+        uses: actions/checkout@v5
+      - name: Install pinned MCP publisher
+        run: |
+          curl -L "https://github.com/modelcontextprotocol/registry/releases/download/v1.8.1/mcp-publisher_$(uname -s | tr '[:upper:]' '[:lower:]')_$(uname -m | sed 's/x86_64/amd64/;s/aarch64/arm64/').tar.gz" | tar xz mcp-publisher
+      - name: Validate manifest
+        run: ./mcp-publisher validate registry/whp-standing/server.json
+      - name: Authenticate with GitHub OIDC
+        run: ./mcp-publisher login github-oidc
+      - name: Publish WHP Standing v1.0.1
+        run: ./mcp-publisher publish registry/whp-standing/server.json
