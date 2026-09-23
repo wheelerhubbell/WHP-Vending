@@ -1,12 +1,6 @@
 name: WHP autonomous market worker
 
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - ".github/workflows/market-worker.yml"
-      - ".github/scripts/market-worker.mjs"
   schedule:
     - cron: "2-57/5 * * * *"
   workflow_dispatch:
