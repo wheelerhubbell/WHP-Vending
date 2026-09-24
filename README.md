@@ -36,6 +36,10 @@ The production rail is **Stripe Payment Links**. Checkout currently requires bro
 
 WHP Vending is independent of WHP Standing. A Vending purchase does not issue a Standing Mark.
 
+## Reception Integrity
+
+A buyer, agent, platform, reviewer, or institution may accept, reject, misunderstand, rely on, or decline a WHP Vending artifact. That reception is separate from the purchased object's identity, provenance, payment state, and fulfillment state. Reception does not mutate the object unless an applicable transition rule recognizes the actor's authority and supporting evidence. See [RECEPTION_INTEGRITY.md](RECEPTION_INTEGRITY.md).
+
 ## Source and artifact boundary
 
 This public repository preserves public discovery material and implementation history. The canonical deployed Sites source is maintained separately because its Worker bundle contains the paid delivery artifacts. Those plaintext artifacts must not be copied into public Git history.
