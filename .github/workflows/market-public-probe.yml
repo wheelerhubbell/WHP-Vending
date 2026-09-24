@@ -1,0 +1,27 @@
+name: WHP market public probe
+
+on:
+  push:
+    paths:
+      - ".github/workflows/market-public-probe.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Probe public market
+        shell: bash
+        run: |
+          set -u
+          origin="https://whp-autonomous-market.wheelerhubbell.chatgpt.site"
+          for path in /healthz /.well-known/x402 /openapi.json /.well-known/agent-card.json /llms.txt; do
+            echo "===== ${path} ====="
+            code="$(curl --silent --show-error --location --max-time 20 --output /tmp/body --write-out '%{http_code}' "${origin}${path}" || true)"
+            echo "HTTP ${code}"
+            head -c 12000 /tmp/body 2>/dev/null || true
+            echo
+          done
