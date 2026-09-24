@@ -92,3 +92,33 @@ The two histories interact only through an event carrying the authority and evid
 ## Scope
 
 This invariant applies across WHP protocols, evaluators, standing systems, vending systems, dossiers, receipts, offers, APIs, schemas, verifier outputs, audit records, and future WHP machine-readable artifacts unless a later canonical protocol version explicitly supersedes it.
+
+## Deterministic reception classification
+
+Reception differences SHOULD be classified from machine-comparable fields rather than manually adjudicated from rhetoric. The canonical vocabulary is:
+
+- `ALIGNED`
+- `PARTIALLY_ALIGNED`
+- `DIVERGENT`
+- `CONTRADICTORY_EVIDENCE_PRESENTED`
+- `EXTERNAL_RELIANCE_CONDITION`
+- `STALE_SUBJECT_REFERENCE`
+- `LIMITATION_OMISSION`
+- `PROVENANCE_PROMOTION`
+- `SCOPE_EXPANSION`
+- `VALUE_CLASS_CONFLATION`
+
+A classification records the relationship between a reception and its canonical subject. It is not itself a judgment of motive, intelligence, good faith, legal validity, or ultimate truth.
+
+Free-text reception may be retained as evidence, but a structural classification MUST be based on fields that can be compared to the canonical record. When no machine-comparable premise is supplied, the system does not infer one from rhetoric.
+
+Unless an independently valid transition is supplied, classifier output has:
+
+```text
+objectEffect: NONE
+stateEffect: NONE
+receptionEffect: RECORDED
+```
+
+Contradictory evidence is preserved as evidence and may support a later authorized transition; its mere presentation does not retroactively rewrite the source record.
+
