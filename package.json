@@ -1,0 +1,11 @@
+{
+  "name": "whp-vending-netlify-adapter",
+  "private": true,
+  "type": "module",
+  "scripts": { "test": "node --test runtime/test/*.test.mjs", "check": "tsc --noEmit" },
+  "dependencies": {
+    "@netlify/database": "^1.0.0",
+    "pg": "8.16.3"
+  },
+  "devDependencies": { "@netlify/functions": "^4.0.0", "typescript": "^5.9.0" }
+}
