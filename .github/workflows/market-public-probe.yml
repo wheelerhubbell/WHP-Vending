@@ -1,4 +1,4 @@
-name: WHP market public probe
+name: WHP public commerce probe
 
 on:
   push:
@@ -13,15 +13,39 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      - name: Probe public market
+      - name: Probe existing WHP public commerce surfaces
         shell: bash
         run: |
           set -u
-          origin="https://whp-autonomous-market.wheelerhubbell.chatgpt.site"
-          for path in /healthz /.well-known/x402 /openapi.json /.well-known/agent-card.json /llms.txt; do
-            echo "===== ${path} ====="
-            code="$(curl --silent --show-error --location --max-time 20 --output /tmp/body --write-out '%{http_code}' "${origin}${path}" || true)"
+          probe_get() {
+            local url="$1"
+            echo "===== GET ${url} ====="
+            code="$(curl --silent --show-error --location --max-time 20 --output /tmp/body --write-out '%{http_code}' "${url}" || true)"
             echo "HTTP ${code}"
             head -c 12000 /tmp/body 2>/dev/null || true
             echo
-          done
+          }
+
+          market="https://whp-autonomous-market.wheelerhubbell.chatgpt.site"
+          probe_get "${market}/healthz"
+          probe_get "${market}/.well-known/x402"
+          probe_get "${market}/openapi.json"
+
+          dip="https://decision-integrity-whp.netlify.app"
+          probe_get "${dip}/service.json"
+          probe_get "${dip}/openapi.json"
+          probe_get "${dip}/examples/inform.json"
+
+          echo "===== POST schema-invalid DIP request ====="
+          code="$(curl --silent --show-error --max-time 20 --output /tmp/invalid --write-out '%{http_code}'             -H 'content-type: application/json' -d '{}' "${dip}/api/evaluate" || true)"
+          echo "HTTP ${code}"
+          cat /tmp/invalid 2>/dev/null || true
+          echo
+
+          echo "===== POST schema-valid DIP request without payment ====="
+          curl --silent --show-error --location --max-time 20 "${dip}/examples/inform.json" -o /tmp/inform.json
+          code="$(curl --silent --show-error --max-time 30 --dump-header /tmp/headers --output /tmp/challenge --write-out '%{http_code}'             -H 'content-type: application/json' --data-binary @/tmp/inform.json "${dip}/api/evaluate" || true)"
+          echo "HTTP ${code}"
+          grep -iE '^(payment-required|content-type|x402)' /tmp/headers || true
+          head -c 12000 /tmp/challenge 2>/dev/null || true
+          echo
