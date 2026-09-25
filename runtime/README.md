@@ -1,5 +1,7 @@
 # WHP Vending autonomous runtime
 
+For the existing Netlify project and its required private configuration, see [Netlify deployment](NETLIFY.md).
+
 Machine-only x402 v2 vending for five exact Wheeler Hubbell Publishing ZIP artifacts.
 
 The public runtime contains catalog metadata, payment validation, finalized Base-chain settlement verification, idempotency, recovery, and discovery. Paid artifact bytes are injected as private deployment variables and are never committed to this repository.

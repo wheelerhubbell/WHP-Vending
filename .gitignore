@@ -1,6 +1,7 @@
 runtime/node_modules/
+node_modules/
+.netlify/
 runtime/.env
 runtime/.env.*
 !runtime/.env.example
 *.log
-
