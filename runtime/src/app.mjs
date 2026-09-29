@@ -239,6 +239,20 @@ function challengeFor(service, row, error = "PAYMENT-SIGNATURE header is require
   return jsonResponse(402, paymentRequired, { ...COMMON_HEADERS, "payment-required": encodeBase64Json(paymentRequired) });
 }
 
+function discoveryChallenge(service, product) {
+  const paymentRequired = {
+    x402Version: 2,
+    error: "Generate a fresh 64-hex client_reference and retry to obtain bound payment terms.",
+    resource: resource(service.origin, product),
+    accepts: [product.requirements],
+    extensions: {
+      bazaar: bazaarFor(product, "http"),
+      "whp-vending": { info: { discovery_only: true, payment_authorized: false, product_id: product.id }, schema: { type: "object" } },
+    },
+  };
+  return jsonResponse(402, paymentRequired, { ...COMMON_HEADERS, "payment-required": encodeBase64Json(paymentRequired) });
+}
+
 function pendingResponse(service, row, state = row.state) {
   return jsonResponse(202, {
     purchase_id: row.id,
@@ -388,6 +402,10 @@ async function productRoute(service, request, product, transport = "http") {
   demand(request.method === "POST", "METHOD_NOT_ALLOWED", 405);
   demand((request.headers.get("content-type") ?? "").split(";")[0].trim() === "application/json", "CONTENT_TYPE_REQUIRED", 415);
   const raw = await readRequestBody(request, INPUT_BODY_LIMIT);
+  if (transport === "http" && (raw.trim() === "" || raw.trim() === "{}")) {
+    demand(!request.headers.get("payment-signature"), "CLIENT_REFERENCE_REQUIRED", 400);
+    return discoveryChallenge(service, product);
+  }
   demand((raw.match(/"client_reference"\s*:/gu) ?? []).length === 1, "OBJECT_FIELDS_INVALID");
   const input = normalizeInput(parseJson(raw));
   const id = purchaseId(input.client_reference);
