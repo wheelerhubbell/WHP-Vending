@@ -2,8 +2,9 @@ name: WHP public commerce probe
 
 on:
   push:
-    paths:
-      - ".github/workflows/market-public-probe.yml"
+    branches: [repair/autonomous-discovery-20260929]
+    paths: [".github/workflows/market-public-probe.yml"]
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -13,25 +14,73 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      - name: Probe existing WHP public commerce surfaces
+      - name: Read public discovery and unpaid payment boundaries
         shell: bash
         run: |
-          set -u
-          probe_get() {
-            local url="$1"
-            echo "===== GET ${url} ====="
-            code="$(curl --silent --show-error --location --max-time 20 --output /tmp/body --write-out '%{http_code}' "${url}" || true)"
-            echo "HTTP ${code}"
-            head -c 16000 /tmp/body 2>/dev/null || true
-            echo
-          }
-
-          market="https://whp-autonomous-market.wheelerhubbell.chatgpt.site"
-          probe_get "${market}/healthz"
-          probe_get "${market}/.well-known/x402"
-
-          standing="https://whp-standing-live-production.up.railway.app"
-          probe_get "${standing}/healthz"
-          probe_get "${standing}/v1/contract"
-          probe_get "${standing}/openapi.json"
-          probe_get "${standing}/llms.txt"
+          python3 - <<'PY'
+          import concurrent.futures, datetime, json, os, re, urllib.request, urllib.error
+          standing = 'https://whp-standing-live-production.up.railway.app'
+          vending = 'https://whp-vending.wheelerhubbell.chatgpt.site'
+          market = 'https://whp-autonomous-market.wheelerhubbell.chatgpt.site'
+          cdp = 'https://api.cdp.coinbase.com/platform/v2/x402'
+          checks = [
+            ('standing_ready', standing+'/readyz', None),
+            ('standing_manifest', standing+'/server.json', None),
+            ('standing_x402', standing+'/.well-known/x402', None),
+            ('standing_unpaid', standing+'/v1/evaluations', b''),
+            ('standing_mcp_init', standing+'/mcp', {'jsonrpc':'2.0','id':1,'method':'initialize','params':{'protocolVersion':'2025-11-25','capabilities':{},'clientInfo':{'name':'whp-controlled-discovery-probe','version':'1.0'}}}),
+            ('standing_mcp_tools', standing+'/mcp', {'jsonrpc':'2.0','id':2,'method':'tools/list','params':{}}),
+            ('vending_ready', vending+'/readyz', None),
+            ('vending_catalog', vending+'/catalog/v1/index.json', None),
+            ('vending_x402', vending+'/.well-known/x402', None),
+            ('market_health', market+'/healthz', None),
+            ('market_x402', market+'/.well-known/x402', None),
+            ('mcp_registry', 'https://registry.modelcontextprotocol.io/v0.1/servers?search=io.github.wheelerhubbell%2F&limit=100', None),
+            ('glama', 'https://glama.ai/mcp/connectors/io.github.wheelerhubbell/whp-standing', None),
+            ('cdp_validate_standing', cdp+'/validate', {'resource':standing+'/v1/evaluations','method':'POST'}),
+            ('cdp_merchant', cdp+'/discovery/merchant?payTo=0x1050eddd8282623b0c263ed6bdbd42370bbc28d3&limit=100&offset=0', None),
+            ('cdp_supported', cdp+'/supported', None),
+            ('x402org_supported', 'https://x402.org/facilitator/supported', None),
+          ]
+          class NoRedirect(urllib.request.HTTPRedirectHandler):
+              def redirect_request(self, req, fp, code, msg, headers, newurl):
+                  return None
+          def run(item):
+              name,url,body=item
+              result={'check':name,'url':url,'checked_at':datetime.datetime.now(datetime.timezone.utc).isoformat(),'controlled_probe':True,'payment_attempted':False}
+              headers={'User-Agent':'WHP-Controlled-Discovery-Probe/1.0 (no-payment)', 'Accept':'application/json, text/event-stream'}
+              if body is not None:
+                  headers['Content-Type']='application/json'
+                  body=body if isinstance(body,bytes) else json.dumps(body).encode()
+              request=urllib.request.Request(url,data=body,headers=headers,method='GET' if body is None else 'POST')
+              try:
+                  try:
+                      response=urllib.request.build_opener(NoRedirect).open(request,timeout=25)
+                  except urllib.error.HTTPError as e:
+                      response=e
+                  with response:
+                      result['status']=response.status
+                      result['content_type']=response.headers.get('content-type','')
+                      result['location']=response.headers.get('location')
+                      result['payment_header_bytes']=len(response.headers.get('payment-required',''))
+                      raw=response.read(750001)
+                      result['truncated']=len(raw)>750000
+                      text=raw[:750000].decode('utf-8',errors='replace')
+                      if name=='glama':
+                          decoded=urllib.parse.unquote(text.replace('&amp;','&'))
+                          result['endpoint_mentions']=sorted(set(re.findall(r'https?://[^\s<>"\\]+(?:netlify\.app|railway\.app)[^\s<>"\\]*',decoded)))[:30]
+                          result['health_mentions']=re.findall(r'.{0,100}(?:Unhealthy|Healthy|Last tested|lastTested).{0,200}',text)[:12]
+                      else:
+                          try:result['response']=json.loads(text)
+                          except ValueError:result['body']=text[:5000]
+              except Exception as e:result['error']=str(e)
+              return result
+          with concurrent.futures.ThreadPoolExecutor(max_workers=4) as pool:
+              results=list(pool.map(run,checks))
+          for result in results:
+              print('WHP_PUBLIC_EVIDENCE '+json.dumps(result,separators=(',',':')))
+          with open(os.environ['GITHUB_STEP_SUMMARY'],'a') as f:
+              f.write('# Controlled public discovery probe\n\nNo payments, wallet access, signing, deployment, or production writes.\n\n')
+              f.write('| Check | HTTP status | Error |\n|---|---|---|\n')
+              for r in results:f.write('| '+r['check']+' | '+str(r.get('status','unknown'))+' | '+str(r.get('error','')).replace('|','/')+' |\n')
+          PY
