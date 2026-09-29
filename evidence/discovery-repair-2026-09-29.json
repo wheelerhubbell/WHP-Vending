@@ -1,0 +1,465 @@
+{
+  "record_type": "WHP_CONTROLLED_UNPAID_DISCOVERY_VERIFICATION",
+  "expected_repair_commit": "da6ef6df862ae92e438fcf65de464ae042e04a5d",
+  "runtime_commit_independently_checked_here": false,
+  "scope": "Standing discovery only; not payment settlement, demand, Vending deployment, or Justin purchasing power",
+  "live_payment_attempted": false,
+  "empty_json_returns_402": false,
+  "discovery_only": null,
+  "payment_authorized": null,
+  "empty_json_with_payment_refused": true,
+  "coinbase_valid": false,
+  "coinbase_simulation": {
+    "outcome": "rejected",
+    "rejectionReason": "endpoint failed preflight checks"
+  },
+  "attempts": [
+    {
+      "status": 400,
+      "at": "2026-09-29T03:23:43.770721+00:00",
+      "error": null
+    },
+    {
+      "status": 400,
+      "at": "2026-09-29T03:23:48.926831+00:00",
+      "error": null
+    },
+    {
+      "status": 400,
+      "at": "2026-09-29T03:23:54.005887+00:00",
+      "error": null
+    },
+    {
+      "status": 400,
+      "at": "2026-09-29T03:23:59.084106+00:00",
+      "error": null
+    },
+    {
+      "status": 400,
+      "at": "2026-09-29T03:24:04.165835+00:00",
+      "error": null
+    },
+    {
+      "status": 400,
+      "at": "2026-09-29T03:24:09.247089+00:00",
+      "error": null
+    },
+    {
+      "status": 400,
+      "at": "2026-09-29T03:24:14.330035+00:00",
+      "error": null
+    },
+    {
+      "status": 400,
+      "at": "2026-09-29T03:24:19.433330+00:00",
+      "error": null
+    },
+    {
+      "status": 400,
+      "at": "2026-09-29T03:24:24.521555+00:00",
+      "error": null
+    },
+    {
+      "status": 400,
+      "at": "2026-09-29T03:24:29.603666+00:00",
+      "error": null
+    },
+    {
+      "status": 400,
+      "at": "2026-09-29T03:24:34.681701+00:00",
+      "error": null
+    },
+    {
+      "status": 400,
+      "at": "2026-09-29T03:24:39.783391+00:00",
+      "error": null
+    },
+    {
+      "status": 400,
+      "at": "2026-09-29T03:24:44.863311+00:00",
+      "error": null
+    },
+    {
+      "status": 400,
+      "at": "2026-09-29T03:24:50.012132+00:00",
+      "error": null
+    },
+    {
+      "status": 400,
+      "at": "2026-09-29T03:24:55.112105+00:00",
+      "error": null
+    },
+    {
+      "status": 400,
+      "at": "2026-09-29T03:25:00.190635+00:00",
+      "error": null
+    },
+    {
+      "status": 400,
+      "at": "2026-09-29T03:25:05.278730+00:00",
+      "error": null
+    },
+    {
+      "status": 400,
+      "at": "2026-09-29T03:25:10.360411+00:00",
+      "error": null
+    }
+  ],
+  "results": [
+    {
+      "check": "empty_json_probe",
+      "url": "https://whp-standing-live-production.up.railway.app/v1/evaluations",
+      "checked_at": "2026-09-29T03:25:10.360411+00:00",
+      "controlled_probe": true,
+      "payment_attempted": false,
+      "status": 400,
+      "payment_header_bytes": 0,
+      "truncated": false,
+      "response": {
+        "error": {
+          "code": "FIELDS_INVALID",
+          "path": "$"
+        }
+      }
+    },
+    {
+      "check": "ready",
+      "url": "https://whp-standing-live-production.up.railway.app/readyz",
+      "checked_at": "2026-09-29T03:25:15.438351+00:00",
+      "controlled_probe": true,
+      "payment_attempted": false,
+      "status": 200,
+      "payment_header_bytes": 0,
+      "truncated": false,
+      "response": {
+        "live_completion_proven": false,
+        "monotonic_witness": "READY",
+        "ready": true,
+        "service": "WHP Standing",
+        "trust_sequence": 9,
+        "trust_status": "READY",
+        "trust_valid_until": 1790718612,
+        "version": "1.0.1"
+      }
+    },
+    {
+      "check": "empty_json_with_invalid_payment_refused",
+      "url": "https://whp-standing-live-production.up.railway.app/v1/evaluations",
+      "checked_at": "2026-09-29T03:25:15.679393+00:00",
+      "controlled_probe": true,
+      "payment_attempted": false,
+      "status": 400,
+      "payment_header_bytes": 0,
+      "truncated": false,
+      "response": {
+        "error": {
+          "code": "FIELDS_INVALID",
+          "path": "$"
+        }
+      }
+    },
+    {
+      "check": "mcp_initialize",
+      "url": "https://whp-standing-live-production.up.railway.app/mcp",
+      "checked_at": "2026-09-29T03:25:15.780427+00:00",
+      "controlled_probe": true,
+      "payment_attempted": false,
+      "status": 200,
+      "payment_header_bytes": 0,
+      "truncated": false,
+      "response": {
+        "id": 1,
+        "jsonrpc": "2.0",
+        "result": {
+          "capabilities": {
+            "resources": {
+              "listChanged": false,
+              "subscribe": false
+            },
+            "tools": {
+              "listChanged": false
+            }
+          },
+          "instructions": "Read https://whp-standing-live-production.up.railway.app/v1/contract and fetch a fresh probe from https://whp-standing-live-production.up.railway.app/examples/submission.PROBE.json before evaluation. Acquisition is submit -> 402 -> x402 payment; no WHP-specific buyer proof is required.",
+          "protocolVersion": "2025-11-25",
+          "serverInfo": {
+            "name": "WHP Standing",
+            "version": "1.0.1"
+          }
+        }
+      }
+    },
+    {
+      "check": "cdp_validate",
+      "url": "https://api.cdp.coinbase.com/platform/v2/x402/validate",
+      "checked_at": "2026-09-29T03:25:15.856214+00:00",
+      "controlled_probe": true,
+      "payment_attempted": false,
+      "status": 200,
+      "payment_header_bytes": 0,
+      "truncated": false,
+      "response": {
+        "bazaarExtension": null,
+        "index": null,
+        "paymentRequirements": {
+          "error": {
+            "code": "FIELDS_INVALID",
+            "path": "$"
+          }
+        },
+        "preflight": [
+          {
+            "check": "url_valid",
+            "detail": "URL is well-formed",
+            "passed": true,
+            "severity": "required"
+          },
+          {
+            "actual": "https",
+            "check": "url_https",
+            "detail": "Resource URL uses HTTPS",
+            "expected": "https",
+            "passed": true,
+            "severity": "required"
+          },
+          {
+            "check": "endpoint_reachable",
+            "detail": "Endpoint responded with status 400",
+            "passed": true,
+            "severity": "required"
+          },
+          {
+            "actual": "400",
+            "check": "returns_402",
+            "detail": "Endpoint returned HTTP 400 instead of 402",
+            "expected": "402",
+            "passed": false,
+            "severity": "required"
+          },
+          {
+            "check": "valid_json",
+            "detail": "Skipped: endpoint did not return 402",
+            "passed": false,
+            "severity": "required"
+          },
+          {
+            "check": "x402_version",
+            "detail": "Skipped: endpoint did not return 402",
+            "passed": false,
+            "severity": "required"
+          },
+          {
+            "check": "payment_required_header",
+            "detail": "Skipped: endpoint did not return 402",
+            "passed": false,
+            "severity": "required"
+          },
+          {
+            "check": "has_accepts",
+            "detail": "Skipped: endpoint did not return 402",
+            "passed": false,
+            "severity": "required"
+          },
+          {
+            "check": "accepts[0].shape",
+            "detail": "Skipped: endpoint did not return 402",
+            "passed": false,
+            "severity": "required"
+          },
+          {
+            "check": "accepts[0].scheme",
+            "detail": "Skipped: endpoint did not return 402",
+            "passed": false,
+            "severity": "required"
+          },
+          {
+            "check": "accepts[0].network",
+            "detail": "Skipped: endpoint did not return 402",
+            "passed": false,
+            "severity": "required"
+          },
+          {
+            "check": "accepts[0].asset",
+            "detail": "Skipped: endpoint did not return 402",
+            "passed": false,
+            "severity": "required"
+          },
+          {
+            "check": "accepts[0].amount",
+            "detail": "Skipped: endpoint did not return 402",
+            "passed": false,
+            "severity": "required"
+          },
+          {
+            "check": "accepts[0].payTo",
+            "detail": "Skipped: endpoint did not return 402",
+            "passed": false,
+            "severity": "required"
+          },
+          {
+            "check": "accepts[0].maxTimeoutSeconds",
+            "detail": "Skipped: endpoint did not return 402",
+            "passed": false,
+            "severity": "required"
+          },
+          {
+            "check": "has_resource",
+            "detail": "Skipped: endpoint did not return 402",
+            "passed": false,
+            "severity": "required"
+          },
+          {
+            "check": "has_bazaar_extension",
+            "detail": "Skipped: endpoint did not return 402",
+            "passed": false,
+            "severity": "required"
+          },
+          {
+            "check": "bazaar.info",
+            "detail": "Skipped: endpoint did not return 402",
+            "passed": false,
+            "severity": "required"
+          },
+          {
+            "check": "bazaar.info.input",
+            "detail": "Skipped: endpoint did not return 402",
+            "passed": false,
+            "severity": "required"
+          },
+          {
+            "check": "bazaar.info.input.type",
+            "detail": "Skipped: endpoint did not return 402",
+            "passed": false,
+            "severity": "required"
+          },
+          {
+            "check": "bazaar.info.input.method",
+            "detail": "Skipped: endpoint did not return 402",
+            "passed": false,
+            "severity": "required"
+          },
+          {
+            "check": "bazaar.info.output",
+            "detail": "Skipped: endpoint did not return 402",
+            "passed": false,
+            "severity": "advisory"
+          },
+          {
+            "check": "bazaar.info.output.example",
+            "detail": "Skipped: endpoint did not return 402",
+            "passed": false,
+            "severity": "advisory"
+          },
+          {
+            "check": "bazaar.schema",
+            "detail": "Skipped: endpoint did not return 402",
+            "passed": false,
+            "severity": "required"
+          },
+          {
+            "check": "parse",
+            "detail": "Skipped: preflight checks failed",
+            "passed": false,
+            "severity": "required"
+          }
+        ],
+        "simulation": {
+          "outcome": "rejected",
+          "rejectionReason": "endpoint failed preflight checks"
+        },
+        "statusCode": 400,
+        "valid": false,
+        "x402Version": null
+      }
+    },
+    {
+      "check": "cdp_merchant",
+      "url": "https://api.cdp.coinbase.com/platform/v2/x402/discovery/merchant?payTo=0x1050eddd8282623b0c263ed6bdbd42370bbc28d3&limit=100&offset=0",
+      "checked_at": "2026-09-29T03:25:16.155229+00:00",
+      "controlled_probe": true,
+      "payment_attempted": false,
+      "status": 200,
+      "payment_header_bytes": 0,
+      "truncated": false,
+      "response": {
+        "pagination": {
+          "limit": 100,
+          "offset": 0,
+          "total": 0
+        },
+        "payTo": "0x1050eddd8282623b0c263ed6bdbd42370bbc28d3",
+        "resources": [],
+        "x402Version": 2
+      }
+    },
+    {
+      "check": "mcp_registry",
+      "url": "https://registry.modelcontextprotocol.io/v0.1/servers?search=io.github.wheelerhubbell%2Fwhp-standing&limit=100",
+      "checked_at": "2026-09-29T03:25:16.294641+00:00",
+      "controlled_probe": true,
+      "payment_attempted": false,
+      "status": 200,
+      "payment_header_bytes": 0,
+      "truncated": false,
+      "response": {
+        "servers": [
+          {
+            "server": {
+              "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+              "name": "io.github.wheelerhubbell/whp-standing",
+              "description": "Verify signed JSON provenance and bounds through COPY/COMPOSE. Payment does not guarantee a Mark.",
+              "repository": {
+                "url": "https://github.com/wheelerhubbell/WheelerHubbellPublishingStandingMark",
+                "source": "github"
+              },
+              "version": "1.0.0",
+              "remotes": [
+                {
+                  "type": "streamable-http",
+                  "url": "https://wheelerhubbellpublishingstandingmark.netlify.app/mcp"
+                }
+              ]
+            },
+            "_meta": {
+              "io.modelcontextprotocol.registry/official": {
+                "status": "active",
+                "statusChangedAt": "2026-09-16T02:29:28.574957Z",
+                "publishedAt": "2026-09-16T02:29:28.574957Z",
+                "updatedAt": "2026-09-16T02:29:28.574957Z",
+                "isLatest": false
+              }
+            }
+          },
+          {
+            "server": {
+              "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+              "name": "io.github.wheelerhubbell/whp-standing",
+              "description": "Verify signed JSON provenance through bounded COPY/COMPOSE. Payment never guarantees a Mark.",
+              "title": "WHP Standing",
+              "version": "1.0.1",
+              "websiteUrl": "https://whp-standing-live-production.up.railway.app/",
+              "remotes": [
+                {
+                  "type": "streamable-http",
+                  "url": "https://whp-standing-live-production.up.railway.app/mcp"
+                }
+              ]
+            },
+            "_meta": {
+              "io.modelcontextprotocol.registry/official": {
+                "status": "active",
+                "statusChangedAt": "2026-09-23T02:08:57.272961Z",
+                "publishedAt": "2026-09-23T02:08:57.272961Z",
+                "updatedAt": "2026-09-23T02:08:57.272961Z",
+                "isLatest": true
+              }
+            }
+          }
+        ],
+        "metadata": {
+          "count": 2
+        }
+      }
+    }
+  ]
+}
