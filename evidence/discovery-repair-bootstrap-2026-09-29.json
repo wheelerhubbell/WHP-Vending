@@ -1,0 +1,865 @@
+{
+  "record_type": "WHP_CONTROLLED_UNPAID_DISCOVERY_VERIFICATION",
+  "expected_repair_commit": "e6c02ca1df999b28baf5ba95e177e9c978b1c8b7",
+  "runtime_commit_independently_checked_here": false,
+  "scope": "Standing discovery only; not payment settlement, demand, Vending deployment, or Justin purchasing power",
+  "live_payment_attempted": false,
+  "empty_json_returns_402": true,
+  "discovery_only": true,
+  "payment_authorized": false,
+  "empty_json_with_payment_refused": true,
+  "coinbase_valid": true,
+  "coinbase_simulation": {
+    "outcome": "accepted"
+  },
+  "attempts": [
+    {
+      "status": 402,
+      "at": "2026-09-29T03:30:09.509262+00:00",
+      "error": null
+    }
+  ],
+  "results": [
+    {
+      "check": "empty_json_probe",
+      "url": "https://whp-standing-live-production.up.railway.app/v1/evaluations",
+      "checked_at": "2026-09-29T03:30:09.509262+00:00",
+      "controlled_probe": true,
+      "payment_attempted": false,
+      "status": 402,
+      "payment_header_bytes": 5224,
+      "truncated": false,
+      "response": {
+        "accepts": [
+          {
+            "amount": "1000000",
+            "asset": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+            "extra": {
+              "assetTransferMethod": "eip3009",
+              "name": "USD Coin",
+              "paymentFlow": "authorization",
+              "version": "2"
+            },
+            "maxTimeoutSeconds": 300,
+            "network": "eip155:8453",
+            "payTo": "0x1050eddd8282623b0c263ed6bdbd42370bbc28d3",
+            "scheme": "exact"
+          }
+        ],
+        "error": "Payment required",
+        "extensions": {
+          "bazaar": {
+            "info": {
+              "input": {
+                "body": {
+                  "authority": [],
+                  "bounds": {
+                    "jurisdiction": "protocol-structural-assessment-only",
+                    "scope": "whp-standing-structured-passage",
+                    "valid_from": 1790652609,
+                    "valid_until": 1790652909
+                  },
+                  "client_reference": "c1cda62a94053d466986bc76dd399b747a39ee4ca70c8910205d514592afb58b",
+                  "nodes": [
+                    {
+                      "payload": {
+                        "content": {
+                          "purpose": "Reach the x402 negotiation boundary without claiming source authority."
+                        },
+                        "epistemic_status": "UNKNOWN",
+                        "id": "unadmitted-acquisition-probe",
+                        "jurisdiction": "protocol-structural-assessment-only",
+                        "locator": "urn:whp:standing:unadmitted-acquisition-probe",
+                        "operations": [
+                          "INFORM"
+                        ],
+                        "prior_hash": null,
+                        "qualifiers": [
+                          "Discovery probe only. Payment cannot convert this unadmitted source into authority."
+                        ],
+                        "scope": "whp-standing-structured-passage",
+                        "status": "ACTIVE",
+                        "unknowns": [
+                          {
+                            "blocks": [
+                              "INFORM",
+                              "RECOMMEND",
+                              "EXECUTE"
+                            ],
+                            "description": "No admitted source authority is supplied by this acquisition probe.",
+                            "id": "source-authority-unadmitted"
+                          }
+                        ],
+                        "valid_from": 1790652609,
+                        "valid_until": 1790652909,
+                        "version": "1"
+                      },
+                      "protected": {
+                        "algorithm": "Ed25519",
+                        "canonicalization": "WHP-JCS-I1",
+                        "key_id": "aca9f36234222b5d9adff299a6ccd156a6d396174fa282b1a6296767423ad8b7",
+                        "type": "WHP-SOURCE-ATTESTATION-v1"
+                      },
+                      "signature": "mcR+gBGKbRZvgq8TQovRKrvg9XPVEGA36F2SF7GAHgAc71S/0Uh9iNWwRtQzvUMA6K+i1IubU/Wjt7H6FsakDQ=="
+                    }
+                  ],
+                  "object": {
+                    "id": "unadmitted-acquisition-probe",
+                    "root": "8c2ca02a14817da1dae401cf77e85635bc0e138c357e44007295c59f47688354",
+                    "version": "1"
+                  },
+                  "profile": {
+                    "id": "WHP-STANDING-STRUCTURED-PASSAGE",
+                    "sha256": "d6296b9ea7a2c570c2c0ae98af8385d6f8edee1e869fb0ae9f553c90302303a7",
+                    "version": "1.1.0"
+                  },
+                  "requested_operation": "INFORM",
+                  "transitions": [],
+                  "version": "WHP-STANDING-SUBMISSION-v1.1"
+                },
+                "bodyType": "json",
+                "method": "POST",
+                "type": "http"
+              },
+              "output": {
+                "description": "A signed WHP Standing Mark when authority and provenance pass, or a signed negative assessment when they do not. One evaluation costs 1 USDC on Base; retrieval and recovery do not charge again.",
+                "type": "json"
+              }
+            },
+            "schema": {
+              "$schema": "https://json-schema.org/draft/2020-12/schema",
+              "properties": {
+                "input": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "body": {
+                      "description": "Fetch a fresh signed example from https://whp-standing-live-production.up.railway.app/examples/submission.PROBE.json immediately before use. Full schema: https://whp-standing-live-production.up.railway.app/schemas/submission.schema.json. Replace the example with a currently admitted request for a positive assessment.",
+                      "type": "object"
+                    },
+                    "bodyType": {
+                      "enum": [
+                        "json"
+                      ],
+                      "type": "string"
+                    },
+                    "method": {
+                      "enum": [
+                        "POST"
+                      ],
+                      "type": "string"
+                    },
+                    "type": {
+                      "const": "http",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "method",
+                    "bodyType",
+                    "body"
+                  ],
+                  "type": "object"
+                },
+                "output": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "description": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "const": "json",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "type"
+                  ],
+                  "type": "object"
+                }
+              },
+              "required": [
+                "input"
+              ],
+              "type": "object"
+            }
+          },
+          "whp-standing": {
+            "info": {
+              "discovery_only": true,
+              "fresh_probe_url": "https://whp-standing-live-production.up.railway.app/examples/submission.PROBE.json",
+              "instructions": "Fetch a fresh probe, POST that exact JSON to receive a purchase-bound quote, then authorize payment. An empty request can never settle.",
+              "payment_authorized": false
+            },
+            "schema": {
+              "type": "object"
+            }
+          }
+        },
+        "resource": {
+          "description": "Discover the WHP Standing evaluation payment boundary. Fetch a fresh signed submission from https://whp-standing-live-production.up.railway.app/examples/submission.PROBE.json before authorizing payment.",
+          "mimeType": "application/json",
+          "url": "https://whp-standing-live-production.up.railway.app/v1/evaluations"
+        },
+        "x402Version": 2
+      }
+    },
+    {
+      "check": "ready",
+      "url": "https://whp-standing-live-production.up.railway.app/readyz",
+      "checked_at": "2026-09-29T03:30:09.711183+00:00",
+      "controlled_probe": true,
+      "payment_attempted": false,
+      "status": 200,
+      "payment_header_bytes": 0,
+      "truncated": false,
+      "response": {
+        "live_completion_proven": false,
+        "monotonic_witness": "READY",
+        "ready": true,
+        "service": "WHP Standing",
+        "trust_sequence": 9,
+        "trust_status": "READY",
+        "trust_valid_until": 1790718612,
+        "version": "1.0.1"
+      }
+    },
+    {
+      "check": "empty_json_with_invalid_payment_refused",
+      "url": "https://whp-standing-live-production.up.railway.app/v1/evaluations",
+      "checked_at": "2026-09-29T03:30:09.927752+00:00",
+      "controlled_probe": true,
+      "payment_attempted": false,
+      "status": 400,
+      "payment_header_bytes": 0,
+      "truncated": false,
+      "response": {
+        "error": {
+          "code": "EMPTY_SUBMISSION_CANNOT_AUTHORIZE_PAYMENT",
+          "path": "$"
+        }
+      }
+    },
+    {
+      "check": "mcp_initialize",
+      "url": "https://whp-standing-live-production.up.railway.app/mcp",
+      "checked_at": "2026-09-29T03:30:10.041678+00:00",
+      "controlled_probe": true,
+      "payment_attempted": false,
+      "status": 200,
+      "payment_header_bytes": 0,
+      "truncated": false,
+      "response": {
+        "id": 1,
+        "jsonrpc": "2.0",
+        "result": {
+          "capabilities": {
+            "resources": {
+              "listChanged": false,
+              "subscribe": false
+            },
+            "tools": {
+              "listChanged": false
+            }
+          },
+          "instructions": "Read https://whp-standing-live-production.up.railway.app/v1/contract and fetch a fresh probe from https://whp-standing-live-production.up.railway.app/examples/submission.PROBE.json before evaluation. Acquisition is submit -> 402 -> x402 payment; no WHP-specific buyer proof is required.",
+          "protocolVersion": "2025-11-25",
+          "serverInfo": {
+            "name": "WHP Standing",
+            "version": "1.0.1"
+          }
+        }
+      }
+    },
+    {
+      "check": "cdp_validate",
+      "url": "https://api.cdp.coinbase.com/platform/v2/x402/validate",
+      "checked_at": "2026-09-29T03:30:10.163982+00:00",
+      "controlled_probe": true,
+      "payment_attempted": false,
+      "status": 200,
+      "payment_header_bytes": 0,
+      "truncated": false,
+      "response": {
+        "bazaarExtension": {
+          "info": {
+            "input": {
+              "body": {
+                "authority": [],
+                "bounds": {
+                  "jurisdiction": "protocol-structural-assessment-only",
+                  "scope": "whp-standing-structured-passage",
+                  "valid_from": 1790652610,
+                  "valid_until": 1790652910
+                },
+                "client_reference": "99823acf20d731f62a849477b2f448860d74744807c25b628255a4b51af7ce53",
+                "nodes": [
+                  {
+                    "payload": {
+                      "content": {
+                        "purpose": "Reach the x402 negotiation boundary without claiming source authority."
+                      },
+                      "epistemic_status": "UNKNOWN",
+                      "id": "unadmitted-acquisition-probe",
+                      "jurisdiction": "protocol-structural-assessment-only",
+                      "locator": "urn:whp:standing:unadmitted-acquisition-probe",
+                      "operations": [
+                        "INFORM"
+                      ],
+                      "prior_hash": null,
+                      "qualifiers": [
+                        "Discovery probe only. Payment cannot convert this unadmitted source into authority."
+                      ],
+                      "scope": "whp-standing-structured-passage",
+                      "status": "ACTIVE",
+                      "unknowns": [
+                        {
+                          "blocks": [
+                            "INFORM",
+                            "RECOMMEND",
+                            "EXECUTE"
+                          ],
+                          "description": "No admitted source authority is supplied by this acquisition probe.",
+                          "id": "source-authority-unadmitted"
+                        }
+                      ],
+                      "valid_from": 1790652610,
+                      "valid_until": 1790652910,
+                      "version": "1"
+                    },
+                    "protected": {
+                      "algorithm": "Ed25519",
+                      "canonicalization": "WHP-JCS-I1",
+                      "key_id": "87fe9afa9a21900d7e373a9f2ea3a797dd4e5dfcb04cf6a859e64838a869aa47",
+                      "type": "WHP-SOURCE-ATTESTATION-v1"
+                    },
+                    "signature": "2QhfSjZC2zyPzSjL2LpJlDgPyAAVa1/4cXtEPE8Ra50NuOnK1Wt3yYTRU6bcNowv3dX9PQ2pmG+iA1KTHvbFDQ=="
+                  }
+                ],
+                "object": {
+                  "id": "unadmitted-acquisition-probe",
+                  "root": "f2c72ce0639eb84bfd09966671b3c0499eaf63730a65182f2ab64766a4b54aa8",
+                  "version": "1"
+                },
+                "profile": {
+                  "id": "WHP-STANDING-STRUCTURED-PASSAGE",
+                  "sha256": "d6296b9ea7a2c570c2c0ae98af8385d6f8edee1e869fb0ae9f553c90302303a7",
+                  "version": "1.1.0"
+                },
+                "requested_operation": "INFORM",
+                "transitions": [],
+                "version": "WHP-STANDING-SUBMISSION-v1.1"
+              },
+              "bodyType": "json",
+              "method": "POST",
+              "type": "http"
+            },
+            "output": {
+              "description": "A signed WHP Standing Mark when authority and provenance pass, or a signed negative assessment when they do not. One evaluation costs 1 USDC on Base; retrieval and recovery do not charge again.",
+              "type": "json"
+            }
+          },
+          "schema": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "properties": {
+              "input": {
+                "additionalProperties": false,
+                "properties": {
+                  "body": {
+                    "description": "Fetch a fresh signed example from https://whp-standing-live-production.up.railway.app/examples/submission.PROBE.json immediately before use. Full schema: https://whp-standing-live-production.up.railway.app/schemas/submission.schema.json. Replace the example with a currently admitted request for a positive assessment.",
+                    "type": "object"
+                  },
+                  "bodyType": {
+                    "enum": [
+                      "json"
+                    ],
+                    "type": "string"
+                  },
+                  "method": {
+                    "enum": [
+                      "POST"
+                    ],
+                    "type": "string"
+                  },
+                  "type": {
+                    "const": "http",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "type",
+                  "method",
+                  "bodyType",
+                  "body"
+                ],
+                "type": "object"
+              },
+              "output": {
+                "additionalProperties": false,
+                "properties": {
+                  "description": {
+                    "type": "string"
+                  },
+                  "type": {
+                    "const": "json",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "type"
+                ],
+                "type": "object"
+              }
+            },
+            "required": [
+              "input"
+            ],
+            "type": "object"
+          }
+        },
+        "index": null,
+        "paymentRequirements": {
+          "accepts": [
+            {
+              "amount": "1000000",
+              "asset": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+              "extra": {
+                "assetTransferMethod": "eip3009",
+                "name": "USD Coin",
+                "paymentFlow": "authorization",
+                "version": "2"
+              },
+              "maxTimeoutSeconds": 300,
+              "network": "eip155:8453",
+              "payTo": "0x1050eddd8282623b0c263ed6bdbd42370bbc28d3",
+              "scheme": "exact"
+            }
+          ],
+          "error": "Payment required",
+          "extensions": {
+            "bazaar": {
+              "info": {
+                "input": {
+                  "body": {
+                    "authority": [],
+                    "bounds": {
+                      "jurisdiction": "protocol-structural-assessment-only",
+                      "scope": "whp-standing-structured-passage",
+                      "valid_from": 1790652610,
+                      "valid_until": 1790652910
+                    },
+                    "client_reference": "99823acf20d731f62a849477b2f448860d74744807c25b628255a4b51af7ce53",
+                    "nodes": [
+                      {
+                        "payload": {
+                          "content": {
+                            "purpose": "Reach the x402 negotiation boundary without claiming source authority."
+                          },
+                          "epistemic_status": "UNKNOWN",
+                          "id": "unadmitted-acquisition-probe",
+                          "jurisdiction": "protocol-structural-assessment-only",
+                          "locator": "urn:whp:standing:unadmitted-acquisition-probe",
+                          "operations": [
+                            "INFORM"
+                          ],
+                          "prior_hash": null,
+                          "qualifiers": [
+                            "Discovery probe only. Payment cannot convert this unadmitted source into authority."
+                          ],
+                          "scope": "whp-standing-structured-passage",
+                          "status": "ACTIVE",
+                          "unknowns": [
+                            {
+                              "blocks": [
+                                "INFORM",
+                                "RECOMMEND",
+                                "EXECUTE"
+                              ],
+                              "description": "No admitted source authority is supplied by this acquisition probe.",
+                              "id": "source-authority-unadmitted"
+                            }
+                          ],
+                          "valid_from": 1790652610,
+                          "valid_until": 1790652910,
+                          "version": "1"
+                        },
+                        "protected": {
+                          "algorithm": "Ed25519",
+                          "canonicalization": "WHP-JCS-I1",
+                          "key_id": "87fe9afa9a21900d7e373a9f2ea3a797dd4e5dfcb04cf6a859e64838a869aa47",
+                          "type": "WHP-SOURCE-ATTESTATION-v1"
+                        },
+                        "signature": "2QhfSjZC2zyPzSjL2LpJlDgPyAAVa1/4cXtEPE8Ra50NuOnK1Wt3yYTRU6bcNowv3dX9PQ2pmG+iA1KTHvbFDQ=="
+                      }
+                    ],
+                    "object": {
+                      "id": "unadmitted-acquisition-probe",
+                      "root": "f2c72ce0639eb84bfd09966671b3c0499eaf63730a65182f2ab64766a4b54aa8",
+                      "version": "1"
+                    },
+                    "profile": {
+                      "id": "WHP-STANDING-STRUCTURED-PASSAGE",
+                      "sha256": "d6296b9ea7a2c570c2c0ae98af8385d6f8edee1e869fb0ae9f553c90302303a7",
+                      "version": "1.1.0"
+                    },
+                    "requested_operation": "INFORM",
+                    "transitions": [],
+                    "version": "WHP-STANDING-SUBMISSION-v1.1"
+                  },
+                  "bodyType": "json",
+                  "method": "POST",
+                  "type": "http"
+                },
+                "output": {
+                  "description": "A signed WHP Standing Mark when authority and provenance pass, or a signed negative assessment when they do not. One evaluation costs 1 USDC on Base; retrieval and recovery do not charge again.",
+                  "type": "json"
+                }
+              },
+              "schema": {
+                "$schema": "https://json-schema.org/draft/2020-12/schema",
+                "properties": {
+                  "input": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "body": {
+                        "description": "Fetch a fresh signed example from https://whp-standing-live-production.up.railway.app/examples/submission.PROBE.json immediately before use. Full schema: https://whp-standing-live-production.up.railway.app/schemas/submission.schema.json. Replace the example with a currently admitted request for a positive assessment.",
+                        "type": "object"
+                      },
+                      "bodyType": {
+                        "enum": [
+                          "json"
+                        ],
+                        "type": "string"
+                      },
+                      "method": {
+                        "enum": [
+                          "POST"
+                        ],
+                        "type": "string"
+                      },
+                      "type": {
+                        "const": "http",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "type",
+                      "method",
+                      "bodyType",
+                      "body"
+                    ],
+                    "type": "object"
+                  },
+                  "output": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "description": {
+                        "type": "string"
+                      },
+                      "type": {
+                        "const": "json",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "type"
+                    ],
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "input"
+                ],
+                "type": "object"
+              }
+            },
+            "whp-standing": {
+              "info": {
+                "discovery_only": true,
+                "fresh_probe_url": "https://whp-standing-live-production.up.railway.app/examples/submission.PROBE.json",
+                "instructions": "Fetch a fresh probe, POST that exact JSON to receive a purchase-bound quote, then authorize payment. An empty request can never settle.",
+                "payment_authorized": false
+              },
+              "schema": {
+                "type": "object"
+              }
+            }
+          },
+          "resource": {
+            "description": "Discover the WHP Standing evaluation payment boundary. Fetch a fresh signed submission from https://whp-standing-live-production.up.railway.app/examples/submission.PROBE.json before authorizing payment.",
+            "mimeType": "application/json",
+            "url": "https://whp-standing-live-production.up.railway.app/v1/evaluations"
+          },
+          "x402Version": 2
+        },
+        "preflight": [
+          {
+            "check": "url_valid",
+            "detail": "URL is well-formed",
+            "passed": true,
+            "severity": "required"
+          },
+          {
+            "actual": "https",
+            "check": "url_https",
+            "detail": "Resource URL uses HTTPS",
+            "expected": "https",
+            "passed": true,
+            "severity": "required"
+          },
+          {
+            "check": "endpoint_reachable",
+            "detail": "Endpoint responded with status 402",
+            "passed": true,
+            "severity": "required"
+          },
+          {
+            "actual": "402",
+            "check": "returns_402",
+            "detail": "Endpoint correctly returns HTTP 402 Payment Required",
+            "expected": "402",
+            "passed": true,
+            "severity": "required"
+          },
+          {
+            "check": "valid_json",
+            "detail": "Response body parsed as JSON",
+            "passed": true,
+            "severity": "required"
+          },
+          {
+            "actual": "2",
+            "check": "x402_version",
+            "detail": "x402 version is 2",
+            "expected": "2",
+            "passed": true,
+            "severity": "required"
+          },
+          {
+            "actual": "PAYMENT-REQUIRED header",
+            "check": "payment_required_header",
+            "detail": "PaymentRequired delivered via the PAYMENT-REQUIRED response header",
+            "expected": "PaymentRequired delivered via PAYMENT-REQUIRED response header",
+            "passed": true,
+            "severity": "required"
+          },
+          {
+            "check": "has_accepts",
+            "detail": "Found 1 payment method(s) in accepts array",
+            "passed": true,
+            "severity": "required"
+          },
+          {
+            "actual": "exact",
+            "check": "accepts[0].scheme",
+            "detail": "Scheme is exact",
+            "expected": "exact or upto",
+            "passed": true,
+            "severity": "required"
+          },
+          {
+            "actual": "eip155:8453",
+            "check": "accepts[0].network",
+            "detail": "Network eip155:8453 is supported",
+            "expected": "a facilitator-supported network (Base, Solana, Polygon, Arbitrum, World)",
+            "passed": true,
+            "severity": "required"
+          },
+          {
+            "actual": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+            "check": "accepts[0].asset",
+            "detail": "Asset is USDC",
+            "passed": true,
+            "severity": "required"
+          },
+          {
+            "actual": "1000000",
+            "check": "accepts[0].amount",
+            "detail": "Amount 1000000 meets $0.001 USDC minimum",
+            "expected": ">= 1000",
+            "passed": true,
+            "severity": "required"
+          },
+          {
+            "actual": "0x1050eddd8282623b0c263ed6bdbd42370bbc28d3",
+            "check": "accepts[0].payTo",
+            "detail": "payTo address present",
+            "passed": true,
+            "severity": "required"
+          },
+          {
+            "check": "accepts[0].maxTimeoutSeconds",
+            "detail": "maxTimeoutSeconds is set",
+            "passed": true,
+            "severity": "required"
+          },
+          {
+            "check": "has_resource",
+            "detail": "Resource URL: https://whp-standing-live-production.up.railway.app/v1/evaluations",
+            "passed": true,
+            "severity": "required"
+          },
+          {
+            "check": "has_bazaar_extension",
+            "detail": "Bazaar extension found",
+            "passed": true,
+            "severity": "required"
+          },
+          {
+            "check": "bazaar.info",
+            "detail": "Bazaar info block present",
+            "passed": true,
+            "severity": "required"
+          },
+          {
+            "check": "bazaar.info.input",
+            "detail": "Input metadata present in bazaar info",
+            "passed": true,
+            "severity": "required"
+          },
+          {
+            "actual": "http",
+            "check": "bazaar.info.input.type",
+            "detail": "Input type is \"http\"",
+            "passed": true,
+            "severity": "required"
+          },
+          {
+            "actual": "POST",
+            "check": "bazaar.info.input.method",
+            "detail": "HTTP method is \"POST\"",
+            "passed": true,
+            "severity": "required"
+          },
+          {
+            "actual": "POST",
+            "check": "bazaar.info.input.method.matches_request",
+            "detail": "Declared method POST matches the probed method",
+            "expected": "POST",
+            "passed": true,
+            "severity": "required"
+          },
+          {
+            "check": "bazaar.info.output",
+            "detail": "Output metadata present in bazaar info",
+            "passed": true,
+            "severity": "advisory"
+          },
+          {
+            "check": "bazaar.info.output.example",
+            "detail": "Missing output example \u2014 helps consumers understand your response format",
+            "passed": false,
+            "severity": "advisory"
+          },
+          {
+            "check": "bazaar.schema",
+            "detail": "Bazaar schema present",
+            "passed": true,
+            "severity": "required"
+          },
+          {
+            "check": "parse",
+            "detail": "Bazaar discovery extension parsed successfully",
+            "passed": true,
+            "severity": "required"
+          }
+        ],
+        "simulation": {
+          "outcome": "accepted"
+        },
+        "statusCode": 402,
+        "valid": true,
+        "x402Version": 2
+      }
+    },
+    {
+      "check": "cdp_merchant",
+      "url": "https://api.cdp.coinbase.com/platform/v2/x402/discovery/merchant?payTo=0x1050eddd8282623b0c263ed6bdbd42370bbc28d3&limit=100&offset=0",
+      "checked_at": "2026-09-29T03:30:10.368611+00:00",
+      "controlled_probe": true,
+      "payment_attempted": false,
+      "status": 200,
+      "payment_header_bytes": 0,
+      "truncated": false,
+      "response": {
+        "pagination": {
+          "limit": 100,
+          "offset": 0,
+          "total": 0
+        },
+        "payTo": "0x1050eddd8282623b0c263ed6bdbd42370bbc28d3",
+        "resources": [],
+        "x402Version": 2
+      }
+    },
+    {
+      "check": "mcp_registry",
+      "url": "https://registry.modelcontextprotocol.io/v0.1/servers?search=io.github.wheelerhubbell%2Fwhp-standing&limit=100",
+      "checked_at": "2026-09-29T03:30:10.444318+00:00",
+      "controlled_probe": true,
+      "payment_attempted": false,
+      "status": 200,
+      "payment_header_bytes": 0,
+      "truncated": false,
+      "response": {
+        "servers": [
+          {
+            "server": {
+              "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+              "name": "io.github.wheelerhubbell/whp-standing",
+              "description": "Verify signed JSON provenance and bounds through COPY/COMPOSE. Payment does not guarantee a Mark.",
+              "repository": {
+                "url": "https://github.com/wheelerhubbell/WheelerHubbellPublishingStandingMark",
+                "source": "github"
+              },
+              "version": "1.0.0",
+              "remotes": [
+                {
+                  "type": "streamable-http",
+                  "url": "https://wheelerhubbellpublishingstandingmark.netlify.app/mcp"
+                }
+              ]
+            },
+            "_meta": {
+              "io.modelcontextprotocol.registry/official": {
+                "status": "active",
+                "statusChangedAt": "2026-09-16T02:29:28.574957Z",
+                "publishedAt": "2026-09-16T02:29:28.574957Z",
+                "updatedAt": "2026-09-16T02:29:28.574957Z",
+                "isLatest": false
+              }
+            }
+          },
+          {
+            "server": {
+              "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+              "name": "io.github.wheelerhubbell/whp-standing",
+              "description": "Verify signed JSON provenance through bounded COPY/COMPOSE. Payment never guarantees a Mark.",
+              "title": "WHP Standing",
+              "version": "1.0.1",
+              "websiteUrl": "https://whp-standing-live-production.up.railway.app/",
+              "remotes": [
+                {
+                  "type": "streamable-http",
+                  "url": "https://whp-standing-live-production.up.railway.app/mcp"
+                }
+              ]
+            },
+            "_meta": {
+              "io.modelcontextprotocol.registry/official": {
+                "status": "active",
+                "statusChangedAt": "2026-09-23T02:08:57.272961Z",
+                "publishedAt": "2026-09-23T02:08:57.272961Z",
+                "updatedAt": "2026-09-23T02:08:57.272961Z",
+                "isLatest": true
+              }
+            }
+          }
+        ],
+        "metadata": {
+          "count": 2
+        }
+      }
+    }
+  ]
+}
