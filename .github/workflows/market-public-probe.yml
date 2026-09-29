@@ -42,7 +42,7 @@ jobs:
               except Exception as error:r['error']=str(error)
               return r
           attempts=[]
-          for _ in range(18):
+          for _ in range(6):
               p=check('empty_json_probe',standing+'/v1/evaluations',{})
               attempts.append({'status':p.get('status'),'at':p['checked_at'],'error':p.get('error')})
               if p.get('status')==402:break
@@ -56,8 +56,8 @@ jobs:
               check('mcp_registry','https://registry.modelcontextprotocol.io/v0.1/servers?search=io.github.wheelerhubbell%2Fwhp-standing&limit=100')]
           by={r['check']:r for r in results}
           body=p.get('response',{});validation=by['cdp_validate'].get('response',{})
-          evidence={'record_type':'WHP_CONTROLLED_UNPAID_DISCOVERY_VERIFICATION','expected_repair_commit':'da6ef6df862ae92e438fcf65de464ae042e04a5d','runtime_commit_independently_checked_here':False,'scope':'Standing discovery only; not payment settlement, demand, Vending deployment, or Justin purchasing power','live_payment_attempted':False,'empty_json_returns_402':p.get('status')==402,'discovery_only':body.get('extensions',{}).get('whp-standing',{}).get('info',{}).get('discovery_only'),'payment_authorized':body.get('extensions',{}).get('whp-standing',{}).get('info',{}).get('payment_authorized'),'empty_json_with_payment_refused':by['empty_json_with_invalid_payment_refused'].get('status')==400,'coinbase_valid':validation.get('valid'),'coinbase_simulation':validation.get('simulation'),'attempts':attempts,'results':results}
-          path=pathlib.Path('evidence/discovery-repair-2026-09-29.json');path.parent.mkdir(exist_ok=True)
+          evidence={'record_type':'WHP_CONTROLLED_UNPAID_DISCOVERY_VERIFICATION','expected_repair_commit':'e6c02ca1df999b28baf5ba95e177e9c978b1c8b7','runtime_commit_independently_checked_here':False,'scope':'Standing discovery only; not payment settlement, demand, Vending deployment, or Justin purchasing power','live_payment_attempted':False,'empty_json_returns_402':p.get('status')==402,'discovery_only':body.get('extensions',{}).get('whp-standing',{}).get('info',{}).get('discovery_only'),'payment_authorized':body.get('extensions',{}).get('whp-standing',{}).get('info',{}).get('payment_authorized'),'empty_json_with_payment_refused':by['empty_json_with_invalid_payment_refused'].get('status')==400,'coinbase_valid':validation.get('valid'),'coinbase_simulation':validation.get('simulation'),'attempts':attempts,'results':results}
+          path=pathlib.Path('evidence/discovery-repair-bootstrap-2026-09-29.json');path.parent.mkdir(exist_ok=True)
           path.write_text(json.dumps(evidence,indent=2)+'\n')
           print('WHP_PUBLIC_REPAIR_EVIDENCE '+json.dumps(evidence,separators=(',',':')))
           PY
@@ -65,6 +65,6 @@ jobs:
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add evidence/discovery-repair-2026-09-29.json
-          git commit -m 'Record actual unpaid Standing discovery and Coinbase validation results'
+          git add evidence/discovery-repair-bootstrap-2026-09-29.json
+          git commit -m 'Record actual unpaid discovery after the trust bootstrap repair'
           git push origin HEAD:repair/autonomous-discovery-20260929
