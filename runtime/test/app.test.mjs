@@ -221,6 +221,15 @@ test("MCP initializes, lists every product tool, and returns directly parseable 
 
 test("unpaid HTTP and MCP discovery remains stateless", async () => {
   const { service, products, store } = setup();
+  const url = ORIGIN + products["claim-classifier"].path;
+  const discovery = await service.handle(new Request(url, { method: "POST", headers: { "content-type": "application/json" }, body: "{}" }));
+  assert.equal(discovery.status, 402);
+  const advertised = await discovery.json();
+  assert.equal(advertised.extensions["whp-vending"].info.discovery_only, true);
+  assert.equal(advertised.extensions.bazaar.info.input.body.client_reference.length, 64);
+  assert.deepEqual(JSON.parse(Buffer.from(discovery.headers.get("payment-required"), "base64").toString("utf8")), advertised);
+  const invalidPaidDiscovery = await service.handle(new Request(url, { method: "POST", headers: { "content-type": "application/json", "payment-signature": "invalid" }, body: "{}" }));
+  assert.equal(invalidPaidDiscovery.status, 400);
   assert.equal((await post(service, products["claim-classifier"], input("31".repeat(32)))).status, 402);
   assert.equal((await post(service, products["return-the-burden"], input("32".repeat(32)))).status, 402);
   const mcp = await service.handle(new Request(ORIGIN + "/mcp", {
